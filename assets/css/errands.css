@@ -130,6 +130,7 @@
 
 .errands-table th:first-child {
   border-radius: 8px 0 0 0;
+  width: 20%;
 }
 
 .errands-table th:nth-child(3) {
