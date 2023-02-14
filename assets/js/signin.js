@@ -7,10 +7,10 @@ form.addEventListener('submit', function (e) {
   const email = document.querySelector('#email').value;
   const password = document.querySelector('#password').value;
   const account = getAccount(email);
-  const verifiedAccount = haveAnAccount(account, password);
+  const validate = haveAnAccount(account, password);
 
-  if (verifiedAccount) {
-    saveAccount(email);
+  if (validate) {
+    saveAccountInSession(email);
     window.location.href = "errands.html";
   }
 })
@@ -38,6 +38,6 @@ function getAccount(email) {
   return "";
 }
 
-function saveAccount(email) {
+function saveAccountInSession(email) {
   sessionStorage.setItem("logged", email);
 }

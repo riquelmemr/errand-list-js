@@ -71,21 +71,21 @@
   margin-bottom: 50px;
 }
 
-.form-signin {
+.form-signin, .form-signup {
   display: flex;
   flex-direction: column;
   width: 90%;
   transition: 0.3s ease-in-out;
 }
 
-.form-signin label {
+.form-signin label, .form-signup label {
   font-size: 16px;
   font-weight: 600;
   margin-bottom: 2px;
   color: var(--gray-dark);
 }
 
-.form-signin input {
+.form-signin input, .form-signup input {
   width: 100%;
   margin-bottom: 36px;
   padding: 10px;
@@ -96,7 +96,8 @@
   transition: 0.3s;
 }
 
-.form-signin input::placeholder {
+.form-signin input::placeholder,
+.form-signup input::placeholder {
   font-size: 14px;
   color: var(--gray-medium)
 }
