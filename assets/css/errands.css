@@ -184,3 +184,80 @@
   color: var(--white);
   background: var(--green);
 }
+
+.modal-update {
+  display: none;
+  position: absolute;
+  left: calc(50% - 150px);
+  top: calc(50% - 180px);
+  transition: 0.3s;
+}
+
+.form-update {
+  height: 350px;
+  width: 300px;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--primary-dark);
+}
+
+.form-update label {
+  color: #ffffff;
+  margin-bottom: 8px;
+  font-size: 20px;
+}
+
+.form-update input {
+  width: 80%;
+  padding: 15px;
+  margin-bottom: 35px;
+
+  border: none;
+  outline: none;
+  border-radius: 8px;
+}
+
+#btn-update-task {
+  font-family: "League Spartan";
+  font-size: 18px;
+  width: 80%;
+  padding: 10px;
+
+  color: #ffffff;
+  border: 2px solid #ffffff;
+  border-radius: 8px;
+  background: #157c3700;
+
+  transition: 0.3s;
+}
+
+#btn-update-task:hover {
+  cursor: pointer;
+  background: #ffffff;
+  color: var(--primary);
+}
+
+.close-modal {
+  position: absolute;
+  right: 0;
+  left: 100px;
+
+  padding: 5px;
+  border: none;
+  border-radius: 8px;
+
+  font-size: 12px;
+  color: #ffffff;
+  background: #c5341a;
+  transition: 0.3s;
+}
+
+.close-modal:hover {
+  cursor: pointer;
+  background: #e43719;
+}

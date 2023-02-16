@@ -1,4 +1,5 @@
 const form = document.querySelector(".form-new-task");
+const formUpdate = document.querySelector(".form-update");
 const tasks = document.querySelector(".tasks");
 const logged = sessionStorage.getItem("logged");
 const dataUser = validateLogin();
@@ -24,6 +25,17 @@ form.addEventListener("submit", (e) => {
     createTask(title, description);
   }
 });
+
+document.addEventListener("click", (e) => {
+  const element = e.target;
+  const modal = document.querySelector(".modal-update");
+  console.log(element);
+  
+  // Open modal
+  if (element.classList.contains("btn-edit")) {
+    modal.style.display = "block";
+  }
+})
 
 function validateTask(title, description) {
   if (!title) return alert("Dê um título a seu recado.");
@@ -57,6 +69,16 @@ function getTasksOfUser(dataUser) {
     createTask(i.title, i.description);
   }
 }
+
+function generateID(min = 1, max = 5000) {
+  return Math.floor(Math.random() * (max - min) + min);
+}
+
+function saveDataUser(dataUser) {
+  localStorage.setItem(dataUser.email, JSON.stringify(dataUser));
+}
+
+// Create the task
 
 function createTask(title, description) {
   const tr = createTR();
@@ -103,12 +125,4 @@ function createBtnEdit() {
   btnEdit.classList.add("btn-edit");
   btnEdit.textContent = "Editar";
   return btnEdit;
-}
-
-function generateID(min = 1, max = 5000) {
-  return Math.floor(Math.random() * (max - min) + min);
-}
-
-function saveDataUser(dataUser) {
-  localStorage.setItem(dataUser.email, JSON.stringify(dataUser));
 }
