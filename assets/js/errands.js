@@ -5,7 +5,7 @@ const logged = sessionStorage.getItem("logged");
 const idTask = document.querySelector('#id-task');
 const newTitle = document.querySelector('#new-title');
 const newDescription = document.querySelector('#new-details');
-const btnUpdateTask = document.querySelector('#btn-update-task');
+const formUpdateTask = document.querySelector('#btn-update-task');
 const modal = document.querySelector(".modal-update");
 const dataUser = validateLogin();
 
@@ -32,7 +32,7 @@ form.addEventListener("submit", (e) => {
   }
 });
 
-btnUpdateTask.addEventListener('click', (e) => {
+formUpdateTask.addEventListener('click', (e) => {
   e.preventDefault();
 
   const id = Number(document.querySelector('#id-task').innerHTML.replace('#', ''));
@@ -56,11 +56,6 @@ function validateTask(title, description) {
   if (!title) return alert("Dê um título a seu recado.");
   if (!description) return alert("Escreva uma descrição a seu recado.");
   return true;
-}
-
-function logout() {
-  sessionStorage.removeItem("logged");
-  window.location.href = "index.html";
 }
 
 function validateLogin() {
@@ -101,55 +96,82 @@ function updateTask(id) {
   newDescription.value = task.description;
 }
 
+function deleteTask(id) {
+  const index = dataUser.tasks.findIndex((task) => task.id === id);
+  dataUser.tasks.splice(index, 1);
+  saveDataUser(dataUser);
+  getTasksOfUser(dataUser);
+}
+
+function logout() {
+  sessionStorage.removeItem("logged");
+  window.location.href = "index.html";
+}
+
 function closeModal() {
   modal.style.display = 'none';
 }
 
 // Create the task
+
 function createTask(task) {
-  const tr = createTR();
-
-  const tdTitle = document.createElement("td");
-  tdTitle.textContent = task.title;
-  tr.appendChild(tdTitle);
-
-  const tdDescription = document.createElement("td");
-  tdDescription.textContent = task.description;
-  tr.appendChild(tdDescription);
-
-  const tdButtons = createTDButtons();
-  tr.appendChild(tdButtons);
-
-  const btnEdit = createBtnEdit(task.id);
-  tdButtons.appendChild(btnEdit);
-
-  const btnDelete = createBtnDelete();
-  tdButtons.appendChild(btnDelete);
+  tasks.innerHTML += `
+    <tr>
+      <td>${task.title}</td>
+      <td>${task.description}</td>
+      <td class="buttons-edit">
+        <button class="btn-edit" onclick="updateTask(${task.id})">Editar</button>
+        <button class="btn-delete" onclick="deleteTask(${task.id})">Excluir</button>
+      </td>
+    </tr>
+  `
 }
 
-function createTR() {
-  const tr = document.createElement("tr");
-  tasks.appendChild(tr);
-  return tr;
-}
+// function createTask(task) {
+//   const tr = createTR();
 
-function createTDButtons() {
-  const tdButtons = document.createElement("td");
-  tdButtons.classList.add("buttons-edit");
-  return tdButtons;
-}
+//   const tdTitle = document.createElement("td");
+//   tdTitle.textContent = task.title;
+//   tr.appendChild(tdTitle);
 
-function createBtnDelete() {
-  const btnDelete = document.createElement("button");
-  btnDelete.classList.add("btn-delete");
-  btnDelete.textContent = "Excluir";
-  return btnDelete;
-}
+//   const tdDescription = document.createElement("td");
+//   tdDescription.textContent = task.description;
+//   tr.appendChild(tdDescription);
 
-function createBtnEdit(taskID) {
-  const btnEdit = document.createElement("button");
-  btnEdit.classList.add("btn-edit");
-  btnEdit.setAttribute("onclick", "updateTask("+taskID+")");
-  btnEdit.textContent = "Editar";
-  return btnEdit;
-}
+//   const tdButtons = createTDButtons();
+//   tr.appendChild(tdButtons);
+
+//   const btnEdit = createBtnEdit(task.id);
+//   tdButtons.appendChild(btnEdit);
+
+//   const btnDelete = createBtnDelete(task.id);
+//   tdButtons.appendChild(btnDelete);
+// }
+
+// function createTR() {
+//   const tr = document.createElement("tr");
+//   tasks.appendChild(tr);
+//   return tr;
+// }
+
+// function createTDButtons() {
+//   const tdButtons = document.createElement("td");
+//   tdButtons.classList.add("buttons-edit");
+//   return tdButtons;
+// }
+
+// function createBtnDelete(taskID) {
+//   const btnDelete = document.createElement("button");
+//   btnDelete.classList.add("btn-delete");
+//   btnDelete.setAttribute("onclick", "deleteTask("+taskID+")");
+//   btnDelete.textContent = "Excluir";
+//   return btnDelete;
+// }
+
+// function createBtnEdit(taskID) {
+//   const btnEdit = document.createElement("button");
+//   btnEdit.classList.add("btn-edit");
+//   btnEdit.setAttribute("onclick", "updateTask("+taskID+")");
+//   btnEdit.textContent = "Editar";
+//   return btnEdit;
+// }
