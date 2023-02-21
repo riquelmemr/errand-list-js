@@ -15,20 +15,24 @@ document.querySelector(".btn-logout").addEventListener("click", logout);
 form.addEventListener("submit", (e) => {
   e.preventDefault();
 
-  const title = document.querySelector("#title").value;
-  const description = document.querySelector("#description").value;
-  const validate = validateTask(title, description);
+  const title = document.querySelector("#title");
+  const description = document.querySelector("#description");
+  const validate = validateTask(title.value, description.value);
 
   if (validate) {
     const task = {
       id: generateID(),
-      title: title,
-      description: description,
+      title: title.value,
+      description: description.value,
     };
 
     dataUser.tasks.push(task);
     saveDataUser(dataUser);
     createTask(task);
+
+    title.value = '';
+    description.value = '';
+    title.focus();
   }
 });
 

@@ -39,7 +39,7 @@ function validateAccount(email, password, confirmPassword) {
   }
 
   if (password !== confirmPassword) {
-    alert('Suas senhas devem ser iguais');
+    alert('Suas senhas devem ser iguais!');
     return false;
   }
 
