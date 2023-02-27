@@ -2,10 +2,10 @@ const form = document.querySelector(".form-new-task");
 const formUpdate = document.querySelector(".form-update");
 const tasks = document.querySelector(".tasks");
 const logged = sessionStorage.getItem("logged");
-const idTask = document.querySelector('#id-task');
-const newTitle = document.querySelector('#new-title');
-const newDescription = document.querySelector('#new-details');
-const formUpdateTask = document.querySelector('#btn-update-task');
+const idTask = document.querySelector("#id-task");
+const newTitle = document.querySelector("#new-title");
+const newDescription = document.querySelector("#new-details");
+const formUpdateTask = document.querySelector("#btn-update-task");
 const modal = document.querySelector(".modal-update");
 const dataUser = validateLogin();
 
@@ -30,31 +30,34 @@ form.addEventListener("submit", (e) => {
     saveDataUser(dataUser);
     createTask(task);
 
-    title.value = '';
-    description.value = '';
+    title.value = "";
+    description.value = "";
     title.focus();
   }
 });
 
-formUpdateTask.addEventListener('click', (e) => {
+formUpdateTask.addEventListener("click", (e) => {
   e.preventDefault();
 
-  const id = Number(document.querySelector('#id-task').innerHTML.replace('#', ''));
+  const id = Number(document.querySelector("#id-task").innerHTML.replace("#", ""));
   const title = document.querySelector("#new-title").value;
   const description = document.querySelector("#new-details").value;
   const indexTask = dataUser.tasks.findIndex((task) => task.id === id);
+  const validate = validateTask(title, description);
 
-  const task = {
-    id: id,
-    title: title,
-    description: description,
+  if (validate) {
+    const task = {
+      id: id,
+      title: title,
+      description: description,
+    };
+
+    dataUser.tasks.splice(indexTask, 1, task);
+    saveDataUser(dataUser);
+    getTasksOfUser(dataUser);
+    modal.style.display = "none";
   }
-
-  dataUser.tasks.splice(indexTask, 1, task);
-  saveDataUser(dataUser);
-  getTasksOfUser(dataUser);
-  modal.style.display = 'none';
-})
+});
 
 function validateTask(title, description) {
   if (!title) return alert("Dê um título a seu recado.");
@@ -75,7 +78,7 @@ function validateLogin() {
 
 // Insert tasks of the user
 function getTasksOfUser(dataUser) {
-  tasks.innerHTML = '';
+  tasks.innerHTML = "";
   const userTasks = dataUser.tasks;
 
   for (const task of userTasks) {
@@ -83,7 +86,7 @@ function getTasksOfUser(dataUser) {
   }
 }
 
-function generateID(min = 1, max = 5000) {
+function generateID(min = 1, max = 10000) {
   return Math.floor(Math.random() * (max - min) + min);
 }
 
@@ -93,18 +96,22 @@ function saveDataUser(dataUser) {
 
 function updateTask(id) {
   const task = dataUser.tasks.find((task) => task.id === id);
-  modal.style.display = 'block';
-  
-  idTask.innerHTML = '#' + id;
+  modal.style.display = "block";
+
+  idTask.innerHTML = "#" + id;
   newTitle.value = task.title;
   newDescription.value = task.description;
 }
 
 function deleteTask(id) {
-  const index = dataUser.tasks.findIndex((task) => task.id === id);
-  dataUser.tasks.splice(index, 1);
-  saveDataUser(dataUser);
-  getTasksOfUser(dataUser);
+  const confirmation = confirm(`Tem certeza que deseja excluir a tarefa com o ID ${id}?`);
+
+  if (confirmation) {
+    const index = dataUser.tasks.findIndex((task) => task.id === id);
+    dataUser.tasks.splice(index, 1);
+    saveDataUser(dataUser);
+    getTasksOfUser(dataUser);
+  }
 }
 
 function logout() {
@@ -113,7 +120,7 @@ function logout() {
 }
 
 function closeModal() {
-  modal.style.display = 'none';
+  modal.style.display = "none";
 }
 
 // Create the task
@@ -128,7 +135,7 @@ function createTask(task) {
         <button class="btn-delete" onclick="deleteTask(${task.id})">Excluir</button>
       </td>
     </tr>
-  `
+  `;
 }
 
 // function createTask(task) {

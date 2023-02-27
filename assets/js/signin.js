@@ -1,5 +1,4 @@
 const form = document.querySelector('#form-signin');
-const logged = localStorage.getItem('logged');
 
 form.addEventListener('submit', function (e) {
   e.preventDefault();
