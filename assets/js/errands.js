@@ -86,12 +86,29 @@ function getTasksOfUser(dataUser) {
   }
 }
 
-function generateID(min = 1, max = 10000) {
-  return Math.floor(Math.random() * (max - min) + min);
+function generateID(min = 1, max = 1000000) {
+  let id = Math.floor(Math.random() * (max - min) + min);
+  let idFound = dataUser.tasks.findIndex(t => t.id === id);
+
+  while (idFound !== -1) {
+    id = Math.floor(Math.random() * (max - min) + min);
+    idFound = dataUser.tasks.findIndex(t => t.id === id);
+  }
+
+  return id;
 }
 
 function saveDataUser(dataUser) {
   localStorage.setItem(dataUser.email, JSON.stringify(dataUser));
+}
+
+function logout() {
+  sessionStorage.removeItem("logged");
+  window.location.href = "index.html";
+}
+
+function closeModal() {
+  modal.style.display = "none";
 }
 
 function updateTask(id) {
@@ -104,7 +121,9 @@ function updateTask(id) {
 }
 
 function deleteTask(id) {
-  const confirmation = confirm(`Tem certeza que deseja excluir a tarefa com o ID ${id}?`);
+  const confirmation = confirm(
+    `Tem certeza que deseja excluir a tarefa com o ID ${id}?`
+  );
 
   if (confirmation) {
     const index = dataUser.tasks.findIndex((task) => task.id === id);
@@ -114,75 +133,52 @@ function deleteTask(id) {
   }
 }
 
-function logout() {
-  sessionStorage.removeItem("logged");
-  window.location.href = "index.html";
-}
-
-function closeModal() {
-  modal.style.display = "none";
-}
-
 // Create the task
-
 function createTask(task) {
-  tasks.innerHTML += `
-    <tr>
-      <td>${task.title}</td>
-      <td>${task.description}</td>
-      <td class="buttons-edit">
-        <button class="btn-edit" onclick="updateTask(${task.id})">Editar</button>
-        <button class="btn-delete" onclick="deleteTask(${task.id})">Excluir</button>
-      </td>
-    </tr>
-  `;
+  const tr = createTR();
+
+  const tdTitle = document.createElement("td");
+  tdTitle.textContent = task.title;
+  tr.appendChild(tdTitle);
+
+  const tdDescription = document.createElement("td");
+  tdDescription.textContent = task.description;
+  tr.appendChild(tdDescription);
+
+  const tdButtons = createTDButtons();
+  tr.appendChild(tdButtons);
+
+  const btnEdit = createBtnEdit(task.id);
+  tdButtons.appendChild(btnEdit);
+
+  const btnDelete = createBtnDelete(task.id);
+  tdButtons.appendChild(btnDelete);
 }
 
-// function createTask(task) {
-//   const tr = createTR();
+function createTR() {
+  const tr = document.createElement("tr");
+  tasks.appendChild(tr);
+  return tr;
+}
 
-//   const tdTitle = document.createElement("td");
-//   tdTitle.textContent = task.title;
-//   tr.appendChild(tdTitle);
+function createTDButtons() {
+  const tdButtons = document.createElement("td");
+  tdButtons.classList.add("buttons-edit");
+  return tdButtons;
+}
 
-//   const tdDescription = document.createElement("td");
-//   tdDescription.textContent = task.description;
-//   tr.appendChild(tdDescription);
+function createBtnDelete(taskID) {
+  const btnDelete = document.createElement("button");
+  btnDelete.classList.add("btn-delete");
+  btnDelete.setAttribute("onclick", "deleteTask("+taskID+")");
+  btnDelete.textContent = "Excluir";
+  return btnDelete;
+}
 
-//   const tdButtons = createTDButtons();
-//   tr.appendChild(tdButtons);
-
-//   const btnEdit = createBtnEdit(task.id);
-//   tdButtons.appendChild(btnEdit);
-
-//   const btnDelete = createBtnDelete(task.id);
-//   tdButtons.appendChild(btnDelete);
-// }
-
-// function createTR() {
-//   const tr = document.createElement("tr");
-//   tasks.appendChild(tr);
-//   return tr;
-// }
-
-// function createTDButtons() {
-//   const tdButtons = document.createElement("td");
-//   tdButtons.classList.add("buttons-edit");
-//   return tdButtons;
-// }
-
-// function createBtnDelete(taskID) {
-//   const btnDelete = document.createElement("button");
-//   btnDelete.classList.add("btn-delete");
-//   btnDelete.setAttribute("onclick", "deleteTask("+taskID+")");
-//   btnDelete.textContent = "Excluir";
-//   return btnDelete;
-// }
-
-// function createBtnEdit(taskID) {
-//   const btnEdit = document.createElement("button");
-//   btnEdit.classList.add("btn-edit");
-//   btnEdit.setAttribute("onclick", "updateTask("+taskID+")");
-//   btnEdit.textContent = "Editar";
-//   return btnEdit;
-// }
+function createBtnEdit(taskID) {
+  const btnEdit = document.createElement("button");
+  btnEdit.classList.add("btn-edit");
+  btnEdit.setAttribute("onclick", "updateTask("+taskID+")");
+  btnEdit.textContent = "Editar";
+  return btnEdit;
+}
