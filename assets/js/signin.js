@@ -16,14 +16,12 @@ form.addEventListener('submit', function (e) {
 
 function haveAnAccount(account, password) {
   if (!account) {
-    alert("Ops! Verifique sua senha ou email e tente novamente.");
-    return false;
+    return alert("Ops! Verifique sua senha ou email e tente novamente.");
   }
 
   if (account) {
     if (account.password != password) {
-      alert("Ops! Sua senha está errada, tente novamente.");
-      return false;
+      return alert("Ops! Sua senha está errada, tente novamente.");
     }
   }
 

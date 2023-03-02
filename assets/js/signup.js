@@ -24,23 +24,19 @@ function validateAccount(email, password, confirmPassword) {
   const alreadyHaveAnAccount = localStorage.getItem(email);
 
   if (alreadyHaveAnAccount) {
-    alert("E-mail já utilizado. Tente um outro e-mail.");
-    return false;
+    return alert("E-mail já utilizado. Tente um outro e-mail.");
   }
 
   if (email < 5) {
-    alert("Preencha o campo com um e-mail válido.");
-    return false;
+    return alert("Preencha o campo com um e-mail válido.");
   }
 
   if (password.length < 6) {
-    alert('Crie um senha com no mínimo 6 dígitos.');
-    return false;
+    return alert('Crie um senha com no mínimo 6 dígitos.');
   }
 
   if (password !== confirmPassword) {
-    alert('Suas senhas devem ser iguais!');
-    return false;
+    return alert('Suas senhas devem ser iguais!');
   }
 
   return true;
