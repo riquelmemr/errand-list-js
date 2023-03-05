@@ -207,7 +207,7 @@
 }
 
 .form-update label {
-  color: #ffffff;
+  color: var(--white);
   margin-bottom: 8px;
   font-size: 20px;
 }
@@ -228,8 +228,8 @@
   width: 80%;
   padding: 10px;
 
-  color: #ffffff;
-  border: 2px solid #ffffff;
+  color: var(--white);
+  border: 2px solid var(--white);
   border-radius: 8px;
   background: #157c3700;
 
@@ -238,7 +238,7 @@
 
 #btn-update-task:hover {
   cursor: pointer;
-  background: #ffffff;
+  background: var(--white);
   color: var(--primary);
 }
 
@@ -260,7 +260,7 @@
   border-radius: 8px;
 
   font-size: 12px;
-  color: #ffffff;
+  color: var(--white);
   background: #c5341a;
   transition: 0.3s;
 }
