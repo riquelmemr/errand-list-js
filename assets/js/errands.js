@@ -1,13 +1,18 @@
 const form = document.querySelector(".form-new-task");
 const formUpdate = document.querySelector(".form-update");
 const tasks = document.querySelector(".tasks");
-const logged = sessionStorage.getItem("logged");
 const idTask = document.querySelector("#id-task");
 const newTitle = document.querySelector("#new-title");
 const newDescription = document.querySelector("#new-details");
 const formUpdateTask = document.querySelector("#btn-update-task");
 const modal = document.querySelector(".modal-update");
-const dataUser = validateLogin();
+let logged = sessionStorage.getItem("logged");
+let dataUser = validateLogin();
+
+document.addEventListener("DOMContentLoaded", () => {
+  logged = sessionStorage.getItem("logged");
+  dataUser = validateLogin();
+});
 
 document.querySelector(".close-modal").addEventListener("click", closeModal);
 document.querySelector(".btn-logout").addEventListener("click", logout);
@@ -66,17 +71,20 @@ function validateTask(title, description) {
 }
 
 function validateLogin() {
-  if (!logged) window.location.href = "index.html";
+  const dataUser = localStorage.getItem(logged) || false;
 
-  // Return information about the current user
-  const dataUser = localStorage.getItem(logged);
+  if (!dataUser) {
+    window.location.href = "index.html"
+    sessionStorage.removeItem("logged");
+    return;
+  };
+
   const data = JSON.parse(dataUser);
-
   getTasksOfUser(data);
+  
   return data;
 }
 
-// Insert tasks of the user
 function getTasksOfUser(dataUser) {
   tasks.innerHTML = "";
   const userTasks = dataUser.tasks;
@@ -133,7 +141,6 @@ function deleteTask(id) {
   }
 }
 
-// Create the task
 function createTask(task) {
   const tr = createTR();
 
